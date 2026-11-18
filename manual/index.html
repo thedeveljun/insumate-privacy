@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>보험노트 사용설명서</title>
+<style>
+/* ───────── 기본 ─────────
+   한글 조판 원칙
+   - word-break:keep-all  → 어절 중간에서 줄이 끊기지 않게
+   - text-align:left      → justify 금지(어절 사이가 벌어지는 것 방지)
+   - text-wrap:pretty     → 외톨이 낱말(고아 줄) 방지
+   - 소제목은 break-after:avoid 로 본문과 붙여 놓는다                */
+
+@page { size: A4; margin: 15mm 16mm 15mm; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo",
+               "Segoe UI", sans-serif;
+  font-size: 10pt;
+  line-height: 1.62;
+  color: #1E2430;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* 인쇄 콘텐츠 폭(A4 210mm − 좌우 여백 32mm)과 같게 맞춰,
+   브라우저에서 열어 볼 때도 PDF와 같은 조판으로 보이게 한다. */
+body { text-align: left; max-width: 178mm; margin: 0 auto; }
+
+:root {
+  --brand: #2F5DDC;
+  --brand-dark: #23459E;
+  --ink: #1E2430;
+  --sub: #5C6779;
+  --line: #E2E7F0;
+  --soft: #F5F7FC;
+  --green: #00A886;
+  --orange: #E8590C;
+}
+
+/* ───────── 표지 ───────── */
+.cover {
+  height: 267mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  page-break-after: always;
+  break-after: page;
+}
+.cover h1 {
+  font-size: 16.5pt; font-weight: 800; letter-spacing: -0.04em;
+  line-height: 1.16;
+}
+.cover .lead {
+  font-size: 12.5pt; color: var(--sub); margin-top: 4mm;
+  letter-spacing: -0.01em;
+}
+.cover .rule {
+  width: 26mm; height: 2.6pt; background: var(--brand);
+  margin: 9mm 0 7mm; border-radius: 2pt;
+}
+.cover dl {
+  display: grid; grid-template-columns: 22mm 1fr;
+  row-gap: 2mm; font-size: 9.5pt; color: var(--sub);
+}
+.cover dt { font-weight: 700; color: var(--ink); }
+.cover .note {
+  margin-top: 12mm; padding: 5mm 6mm;
+  background: var(--soft); border-radius: 3mm;
+  border-left: 2.6pt solid var(--brand);
+  font-size: 9.5pt; color: #33405A;
+}
+
+/* ───────── 목차 ───────── */
+.toc { page-break-after: always; break-after: page; }
+.toc h2 { margin-bottom: 6mm; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc > ol > li {
+  counter-increment: toc;
+  display: grid; grid-template-columns: 9mm 1fr;
+  padding: 2.6mm 0; border-bottom: 0.6pt solid var(--line);
+  break-inside: avoid;
+}
+.toc > ol > li::before {
+  content: counter(toc, decimal-leading-zero);
+  color: var(--brand); font-weight: 800; font-size: 9.5pt;
+}
+.toc b { font-weight: 700; font-size: 10.5pt; }
+.toc span { display: block; color: var(--sub); font-size: 9pt; margin-top: 0.6mm; }
+
+/* ───────── 섹션 ───────── */
+.sec { page-break-before: always; break-before: page; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 4mm;
+  padding-bottom: 3mm; margin-bottom: 6mm;
+  border-bottom: 1.6pt solid var(--ink);
+  break-after: avoid; page-break-after: avoid;
+}
+.sec-no {
+  font-size: 10pt; font-weight: 800; color: #fff;
+  background: var(--brand); border-radius: 2mm;
+  padding: 0.8mm 2.4mm; letter-spacing: 0.02em;
+}
+h2 { font-size: 17pt; font-weight: 800; letter-spacing: -0.035em; }
+.sec-head .sub { margin-left: auto; font-size: 9pt; color: var(--sub); }
+
+/* 기능 블록: 좌 스크린샷 · 우 설명 */
+.feat {
+  display: grid; grid-template-columns: 50mm 1fr; gap: 6.5mm;
+  margin-bottom: 7mm;
+  break-inside: avoid; page-break-inside: avoid;
+}
+.feat.wide { grid-template-columns: 1fr; }
+.feat .shot img {
+  width: 50mm; display: block;
+  border: 0.8pt solid var(--line); border-radius: 2.4mm;
+}
+.feat .shot figcaption {
+  margin-top: 1.6mm; font-size: 8pt; color: var(--sub); text-align: center;
+}
+.pair { display: flex; gap: 4mm; }
+.pair img { width: 44mm; border: 0.8pt solid var(--line); border-radius: 2.6mm; }
+
+/* 소제목 — 본문과 바짝 붙인다 */
+h3 {
+  font-size: 12pt; font-weight: 800; letter-spacing: -0.028em;
+  margin: 0 0 1.6mm;
+  break-after: avoid; page-break-after: avoid;
+}
+h3 + p, h3 + ul, h3 + ol, h3 + .steps, h3 + .kv { margin-top: 0; }
+h4 {
+  font-size: 10pt; font-weight: 800; color: var(--brand-dark);
+  margin: 4mm 0 1.2mm;
+  break-after: avoid; page-break-after: avoid;
+}
+p { margin-bottom: 2.4mm; }
+p:last-child { margin-bottom: 0; }
+
+/* 단계 안내 */
+.steps { list-style: none; counter-reset: st; margin: 2mm 0 0; }
+.steps li {
+  counter-increment: st;
+  position: relative; padding-left: 7mm; margin-bottom: 1.8mm;
+  break-inside: avoid;
+}
+.steps li::before {
+  content: counter(st);
+  position: absolute; left: 0; top: 0.3mm;
+  width: 4.6mm; height: 4.6mm; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-size: 7.5pt; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* 항목 설명 목록 */
+.kv { list-style: none; margin: 1.6mm 0 0; }
+.kv li {
+  padding: 1.4mm 0 1.4mm 0; border-bottom: 0.5pt dotted var(--line);
+  break-inside: avoid;
+}
+.kv li:last-child { border-bottom: none; }
+.kv b { color: var(--brand-dark); font-weight: 800; }
+
+ul.dot { list-style: none; margin: 1.6mm 0 0; }
+ul.dot li {
+  position: relative; padding-left: 4mm; margin-bottom: 1.2mm;
+  break-inside: avoid;
+}
+ul.dot li::before {
+  content: ""; position: absolute; left: 0.6mm; top: 2.1mm;
+  width: 1.5mm; height: 1.5mm; border-radius: 50%; background: var(--brand);
+}
+
+/* 콜아웃 */
+.tip, .warn {
+  margin: 3mm 0 0; padding: 3mm 4mm;
+  border-radius: 2.4mm; font-size: 9.2pt;
+  break-inside: avoid;
+}
+.tip { background: #EEF3FF; border-left: 2.2pt solid var(--brand); }
+.warn { background: #FFF4EC; border-left: 2.2pt solid var(--orange); }
+.tip b, .warn b { font-weight: 800; }
+.tip b { color: var(--brand-dark); }
+.warn b { color: #B4460B; }
+
+/* 표 */
+table {
+  width: 100%; border-collapse: collapse; margin-top: 2.4mm;
+  font-size: 9.2pt; break-inside: avoid;
+}
+th, td {
+  border-bottom: 0.6pt solid var(--line);
+  padding: 1.8mm 2mm; text-align: left; vertical-align: top;
+}
+th {
+  background: var(--soft); font-weight: 800; font-size: 8.8pt;
+  color: #33405A; border-bottom: 1pt solid #CFD8EA;
+}
+td.k { font-weight: 700; color: var(--brand-dark); white-space: nowrap; }
+
+.chip {
+  display: inline-block; padding: 0.3mm 1.8mm; border-radius: 1.4mm;
+  background: #EEF3FF; color: var(--brand-dark);
+  font-size: 8.6pt; font-weight: 800; white-space: nowrap;
+}
+
+.end {
+  margin-top: 8mm; padding-top: 4mm; border-top: 1pt solid var(--line);
+  font-size: 8.6pt; color: var(--sub); text-align: center;
+}
+
+/* 저작권 고지. 표지에 한 줄, 맨 끝에 전문(全文)을 둔다. */
+.cover-copy { margin-top: 6mm; font-size: 8.4pt; color: var(--sub); }
+.legal {
+  margin-top: 5mm; padding: 4.5mm 5mm; border: 1pt solid var(--line);
+  border-radius: 2mm; background: var(--soft);
+  font-size: 8.4pt; color: var(--sub); line-height: 1.65;
+}
+.legal b { color: var(--ink); }
+.legal p { margin: 0 0 2mm; }
+.legal p:last-child { margin-bottom: 0; }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ───────── 앱 안에서 볼 때만 덧칠하는 화면용 스타일 ─────────
+   위쪽 원본 CSS는 A4 인쇄 기준이다. 본문 폭이 178mm(약 673px)로 고정돼 있고
+   기능 블록이 2단이라, 그대로 두면 휴대폰에서 가로로 밀려 읽을 수가 없다.
+   원본은 PDF를 그대로 뽑아야 하므로 건드리지 않고 여기서 덮어쓴다.
+   (tool/gen-manual-asset.ps1 이 끼워 넣는다. 이 파일을 직접 고치지 말 것) */
+
+html { font-size: 11.5pt; }   /* 인쇄용 10pt는 휴대폰에서 너무 작다 */
+body { max-width: none; margin: 0; padding: 14px 14px 56px; }
+
+/* 표지·목차에서 인쇄용 페이지 높이를 걷어낸다 */
+.cover { height: auto; padding: 4px 0 20px; }
+
+/* 화면에는 페이지 넘김이 없으니 장 사이를 굵은 띠로 갈라 준다 */
+.sec { margin-top: 26px; padding-top: 22px; border-top: 8px solid #EEF3FF; scroll-margin-top: 4px; }
+#sec1 { border-top: 0; }
+.sec-head { flex-wrap: wrap; }
+.sec-head .sub { margin-left: 0; width: 100%; margin-top: 2px; }
+
+/* 기능 블록: 좌우 2단 → 위아래 1단, 스크린샷은 가운데 */
+.feat { grid-template-columns: 1fr; gap: 12px; }
+.feat .shot img { width: 100%; max-width: 240px; margin: 0 auto; }
+.pair { flex-wrap: wrap; justify-content: center; }
+.pair img { width: 46%; max-width: 200px; }
+
+/* 인쇄용으로 작게 잡아 둔 것들을 읽을 만한 크기로 올린다 */
+.tip, .warn, table { font-size: 10.5pt; }
+th, .chip { font-size: 10pt; }
+td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
+
+/* 목차 → 각 장으로 바로 이동 */
+.toc ol a { color: inherit; text-decoration: none; display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ 표지 ══════════ -->
+<section class="cover">
+  <h1>보험노트 사용설명서</h1>
+  <p class="lead">보험설계사를 위한 고객관리 앱 · 모든 정보는 내 휴대폰에만</p>
+  <div class="rule"></div>
+  <dl>
+    <dt>앱 이름</dt><dd>보험노트 (InsuMate)</dd>
+    <dt>버전</dt><dd>1.1.18 (26)</dd>
+    <dt>지원 기기</dt><dd>Android 7.0 이상</dd>
+    <dt>작성일</dt><dd>2026년 11월 18일</dd>
+  </dl>
+  <div class="note">
+    <b>꼭 기억하세요</b> — 고객 자료는 <b>이 휴대폰 안에만</b> 저장됩니다.
+    휴대폰을 잃어버리면 자료도 사라지니, <b>한 달에 한 번 백업</b>해 두세요(10장).
+  </div>
+  <p class="cover-copy">&copy; 2026 디벨로직. 이 설명서는 저작권법의 보호를 받는 저작물입니다.
+    무단 전재 · 복제 · 배포를 금합니다.</p>
+</section>
+
+<!-- ══════════ 목차 ══════════ -->
+<section class="toc">
+<h2>목차</h2>
+<ol>
+<li><a href="#sec1"><div><b>처음 시작하기</b><span>화면 구성 · 내 이름 넣기 · 시작하기 안내</span></div></a></li>
+<li><a href="#sec2"><div><b>홈</b><span>오늘 할 일 · 오늘 브리핑</span></div></a></li>
+<li><a href="#sec3"><div><b>고객 등록</b><span>한 명씩 · 명함·문자로 · 엑셀로 한꺼번에</span></div></a></li>
+<li><a href="#sec4"><div><b>고객 찾기와 고객 화면</b><span>검색 · 조건 검색 · 가족 · 서류</span></div></a></li>
+<li><a href="#sec5"><div><b>계약</b><span>계약 등록 · 증권 사진 · 갱신</span></div></a></li>
+<li><a href="#sec6"><div><b>상담과 보장분석</b><span>상담 기록 · 보장분석 · 소개 관계</span></div></a></li>
+<li><a href="#sec7"><div><b>문자 보내기</b><span>한 명 · 여러 명 · 문구 고치기</span></div></a></li>
+<li><a href="#sec8"><div><b>일정과 알림</b><span>저절로 생기는 일정 · 할 일 · 알림 켜기</span></div></a></li>
+<li><a href="#sec9"><div><b>보험사별 장부 · 통계 · 위젯</b><span>한눈에 보기</span></div></a></li>
+<li><a href="#sec10"><div><b>자료 지키기</b><span>백업 · 엑셀 · 앱 잠금</span></div></a></li>
+<li><a href="#sec11"><div><b>자주 묻는 질문</b><span>막힐 때 먼저 보세요</span></div></a></li>
+</ol>
+</section>
+
+<!-- ══════════ 1. 처음 시작하기 ══════════ -->
+<section class="sec" id="sec1">
+  <div class="sec-head"><span class="sec-no">01</span><h2>처음 시작하기</h2>
+    <span class="sub">이것만 하면 준비 끝</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/01-home.jpg" alt="홈 화면">
+      <figcaption>앱을 처음 켜면 나오는 홈</figcaption></figure>
+    <div>
+      <h3>홈의 &lsquo;시작하기&rsquo;를 따라 하세요</h3>
+      <p>처음 켜면 홈 맨 위에 <span class="chip">시작하기</span>가 뜹니다.
+        세 줄을 위에서부터 누르기만 하면 됩니다.</p>
+      <ol class="steps">
+        <li><b>고객 등록하기</b> — 고객을 넣습니다(3장)</li>
+        <li><b>계약 넣어보기</b> — 고객의 계약을 넣습니다(5장)</li>
+        <li><b>할 일 잡아보기</b> — 전화·방문할 일을 적습니다(8장)</li>
+      </ol>
+      <p>끝낸 줄에는 초록 체크가 붙고, 셋 다 끝나면 안내가 사라집니다.</p>
+
+      <h3>아래 탭 다섯 개</h3>
+      <ul class="kv">
+        <li><b>홈</b> — 오늘 할 일</li>
+        <li><b>고객</b> — 고객 찾기·등록</li>
+        <li><b>일정</b> — 달력</li>
+        <li><b>통계</b> — 계약 현황</li>
+        <li><b>설정</b> — 백업·알림·잠금 등</li>
+      </ul>
+      <div class="tip">고객·일정·통계 탭 맨 위에 <b>한 줄 도움말</b>이 나옵니다. 읽고 나서
+        <b>×</b>를 누르면 다시 나오지 않습니다.</div>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/17-settings.jpg" alt="설정 화면">
+      <figcaption>설정 &gt; 설계사 이름</figcaption></figure>
+    <div>
+      <h3>내 이름 넣기</h3>
+      <p>홈 맨 위 <span class="chip">내 이름 넣기</span>를 누르거나,
+        <b>설정</b> 탭의 <span class="chip">설계사 이름</span>에 이름을 넣으세요.
+        고객에게 보내는 문자 끝에 <b>- 담당 설계사 (내 이름) 드림</b>처럼 붙습니다.</p>
+
+      <h3>예시 고객 세 명</h3>
+      <p>처음 깔면 <b>홍길동 · 이순신 · 유관순</b>이 들어 있습니다.
+        눌러 보며 익히라고 넣어 둔 <b>예시</b>입니다.
+        다 익히셨으면 <b>설정 맨 위 &lsquo;예시 고객 모두 지우기&rsquo;</b>로 지우세요.
+        직접 넣은 고객은 지워지지 않습니다.</p>
+
+      <h3>이 설명서 다시 열기</h3>
+      <p><b>설정 &gt; 도움말 &gt; 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
+        <span class="chip">사용법 자세히 보기</span>를 누르세요.
+        인터넷이 없어도 열립니다.</p>
+      <p>설명서 오른쪽 위 <span class="chip">보내기</span>를 누르면
+        <b>문자·카톡으로 링크</b>를 보내거나, 그림까지 담은 <b>파일 하나</b>로
+        저장·전송할 수 있습니다. PC나 드라이브에 저장해 두고 큰 화면으로 보셔도 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 2. 홈 ══════════ -->
+<section class="sec" id="sec2">
+  <div class="sec-head"><span class="sec-no">02</span><h2>홈</h2>
+    <span class="sub">하루를 여는 화면</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/01b-home-week.jpg" alt="오늘 할 일">
+      <figcaption>오늘 할 일 · 이번주 일정</figcaption></figure>
+    <div>
+      <h3>맨 위 숫자 세 개</h3>
+      <p><b>전체 고객 · 이번 달 만기 · 이번 달 신규</b>입니다.
+        만기·신규 숫자를 누르면 해당 계약 목록이 열립니다.</p>
+
+      <h3>오늘 할 일</h3>
+      <p>오늘 챙길 것이 한 목록에 모입니다.</p>
+      <ul class="dot">
+        <li>오늘의 <b>만기 · 납입 · 생일 · 상담</b></li>
+        <li>마감이 지난 <b>할 일</b> (빨간 <b>D+3</b> 표시)</li>
+        <li>90일 넘게 연락 못 한 <b>휴면 고객</b> (최대 3명)</li>
+      </ul>
+      <p>줄마다 <b>전화 · 문자</b> 버튼이 있습니다. 할 일은 왼쪽 동그라미를 누르면 완료됩니다.</p>
+
+      <h3>이번주 일정 · 놓친 일정</h3>
+      <p>그 아래에 내일부터 이번 주까지의 일정이 나옵니다.
+        지난 7일 동안 지나간 생일·만기·상담이 있으면 <b>놓친 일정</b>으로 따로 모아 줍니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/02-briefing.jpg" alt="오늘 브리핑">
+      <figcaption>오늘 브리핑</figcaption></figure>
+    <div>
+      <h3>오늘 브리핑</h3>
+      <p>홈 오른쪽 위 <span class="chip">브리핑</span>을 누르세요.
+        오늘 연락할 고객을 <b>한 사람당 카드 한 장</b>으로 정리해 줍니다.</p>
+      <ul class="dot">
+        <li>왜 연락하는지 (납입·만기·생일·상담)</li>
+        <li>지금 내는 보험료와 마지막 상담 내용</li>
+        <li>부족한 보장 — 권유할 거리</li>
+      </ul>
+      <div class="tip">전화 돌리기 전에 이 화면만 훑으면 무슨 말을 할지 정리됩니다.</div>
+      <p>계약이 있으면 홈 아래쪽에 <span class="chip">보험사별 장부</span> 입구가 생깁니다(9장).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 3. 고객 등록 ══════════ -->
+<section class="sec" id="sec3">
+  <div class="sec-head"><span class="sec-no">03</span><h2>고객 등록</h2>
+    <span class="sub">세 가지 방법 중 편한 것으로</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/32-add-client-choice.jpg" alt="고객 등록 방법 고르기">
+      <figcaption>홈 &gt; 시작하기 &gt; 고객 등록하기</figcaption></figure>
+    <div>
+      <h3>방법 고르기</h3>
+      <p>홈 &lsquo;시작하기&rsquo;의 <b>고객 등록하기</b>를 누르면 방법을 고르는 창이 뜹니다.</p>
+      <ul class="kv">
+        <li><b>한 명씩 직접 등록할게요</b> — 이름·전화번호만 넣으면 됩니다</li>
+        <li><b>명함 사진으로 등록</b> — 명함을 찍으면 이름·전화·회사를 읽어 채웁니다</li>
+        <li><b>문자·카톡 내용 붙여넣기</b> — 복사해 둔 글에서 이름·전화·생년월일을 찾습니다</li>
+        <li><b>쓰던 고객 명단이 있어요 (엑셀)</b> — 수십·수백 명을 한꺼번에 옮깁니다(아래)</li>
+      </ul>
+      <p>고객 탭 오른쪽 아래 <span class="chip">고객 등록</span> 버튼으로도 들어갑니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/20-client-form.jpg" alt="고객 등록 화면">
+      <figcaption>고객 등록 화면</figcaption></figure>
+    <div>
+      <h3>한 명씩 등록하기</h3>
+      <ol class="steps">
+        <li><b>이름</b>을 적습니다. 꼭 필요한 칸은 이름 하나뿐입니다.</li>
+        <li>전화번호·생년월일·성별을 적습니다. 생년월일은 <b>숫자 8자리</b>로 치면 됩니다(19601231).</li>
+        <li><b>등록</b>을 누릅니다.</li>
+      </ol>
+      <p>주소·직업·가족·소개자·영업 단계·메모는 <b>더 입력하기 (선택)</b>를 눌러야 보입니다.
+        지금 몰라도 나중에 <b>수정</b>에서 채우면 됩니다.</p>
+      <div class="tip">맨 위 <b>명함 사진</b> · <b>문자·카톡 붙여넣기</b> 버튼을 누르면
+        읽은 내용을 칸에 채워 줍니다. 저장 전에 맞는지 한 번 보세요.</div>
+      <div class="tip">생년월일을 넣으면 <b>생일</b>과 <b>상령일</b>(보험 나이가 오르는 날)
+        일정이 저절로 생깁니다.</div>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/04-clients-empty.jpg" alt="엑셀로 한 번에">
+      <figcaption>엑셀로 한꺼번에 옮기기</figcaption></figure>
+    <div>
+      <h3>쓰던 명단을 엑셀로 한꺼번에</h3>
+      <p>고객이 많으면 한 명씩 치지 마세요. <b>쓰던 고객 명단이 있어요</b>를 고르면
+        순서 안내가 나옵니다.</p>
+      <ol class="steps">
+        <li><span class="chip">양식 받기</span>로 빈 엑셀 양식을 받아 PC로 보냅니다.</li>
+        <li>PC에서 <b>셋째 줄부터</b> 채웁니다. 둘째 줄의 (예시)를 보고 따라 적으면 됩니다.</li>
+        <li>다 채운 파일을 휴대폰에 저장하고 <span class="chip">한 번에 가져오기</span>를 누릅니다.</li>
+      </ol>
+      <div class="tip"><b>계약 시트만 채워도 됩니다.</b> 앱에 없는 고객은 저절로 만들어집니다.
+        같은 파일을 두 번 넣어도 두 번 들어가지 않습니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 4. 고객 찾기와 고객 화면 ══════════ -->
+<section class="sec" id="sec4">
+  <div class="sec-head"><span class="sec-no">04</span><h2>고객 찾기와 고객 화면</h2>
+    <span class="sub">찾고 · 보고 · 고치기</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/03-clients.jpg" alt="고객 목록">
+      <figcaption>고객 목록</figcaption></figure>
+    <div>
+      <h3>찾기</h3>
+      <p>고객 탭 맨 위 검색창에 이름이나 전화번호를 칩니다.
+        <b>초성</b>도 됩니다 — <b>ㄱㄷㅇ</b>만 쳐도 강도윤이 나옵니다.</p>
+
+      <h3>조건으로 거르기</h3>
+      <p>검색창 옆 <span class="chip">조건</span>을 누르면 이런 조건으로 거를 수 있습니다.</p>
+      <ul class="dot">
+        <li>중요고객(별표) · 이번 달 생일 · 만기 임박</li>
+        <li>성별 · 나이 · 상품 유형 · 보험사</li>
+        <li>영업 단계 · 문자 수신동의</li>
+      </ul>
+      <p>거른 뒤 목록 위 <b>이 N명에게 문자</b>로 그 사람들에게 문자를 보낼 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/06-detail-top.jpg" alt="고객 화면">
+      <figcaption>고객을 누르면 나오는 화면</figcaption></figure>
+    <div>
+      <h3>고객 화면</h3>
+      <p>목록에서 고객을 누르면 그 고객의 모든 것이 한 화면에 나옵니다.</p>
+      <ul class="kv">
+        <li><b>보장분석</b> — 어떤 보장이 비었는지 봅니다(6장)</li>
+        <li><b>문자</b> — 이 고객에게 문자를 보냅니다(7장)</li>
+        <li><b>수정</b> — 고객 정보를 고칩니다</li>
+        <li><b>전화번호</b> — 누르면 바로 전화가 걸립니다</li>
+        <li><b>별</b> — 누르면 중요고객이 됩니다</li>
+      </ul>
+      <p>아래로 내리면 <b>가족 · 계약 · 상담 · 서류</b>가 차례로 나옵니다.
+        오른쪽 아래 <span class="chip">계약 추가</span>로 계약을 넣습니다.</p>
+
+      <h3>영업 단계 · 문자 수신동의</h3>
+      <p>이름 아래 작은 표시입니다. <b>수정 &gt; 더 입력하기</b>에서 정합니다.</p>
+      <ul class="dot">
+        <li><b>영업 단계</b> — 가망 · 상담중 · 청약중 · 계약 · 보류.
+          계약을 넣으면 저절로 &lsquo;계약&rsquo;이 됩니다</li>
+        <li><b>수신동의</b> — 거부한 고객은 여러 명에게 보내는 문자에서 빠집니다</li>
+      </ul>
+
+      <h3>가족 묶기</h3>
+      <p><b>가족 연결</b>을 누르고 다른 고객을 고르면 한 가족으로 묶입니다.</p>
+
+      <h3>서류 넣기</h3>
+      <p><b>첨부</b>를 누르고 신분증·청약서·증권 사진을 찍거나 고릅니다.
+        사진은 앱 안에 따로 보관됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 5. 계약 ══════════ -->
+<section class="sec" id="sec5">
+  <div class="sec-head"><span class="sec-no">05</span><h2>계약</h2>
+    <span class="sub">등록 · 상태 · 갱신</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/09-contract-form.jpg" alt="계약 등록 화면">
+      <figcaption>계약 등록 화면</figcaption></figure>
+    <div>
+      <h3>계약 넣기</h3>
+      <ol class="steps">
+        <li>고객 화면 오른쪽 아래 <span class="chip">계약 추가</span>를 누릅니다.</li>
+        <li><b>보험회사 → 상품 유형 → 상품명</b> 순서로 고릅니다. 생명보험사는 생보 유형,
+          손해보험사는 손보 유형만 나옵니다. 상품명 칸을 누르면 그 회사 상품이 나오고,
+          목록에 없으면 <b>직접 입력</b>하면 됩니다.</li>
+        <li><b>만기일 · 보험료 · 납입일 · 납입주기</b>를 넣고 저장합니다.</li>
+      </ol>
+      <div class="tip"><b>만기일과 납입일을 넣어야</b> 만기·납입 일정과 알림이 생깁니다.</div>
+      <div class="tip"><b>상품 유형</b>(실손·암·종신 등)을 넣어야 보장분석이 됩니다.</div>
+
+      <h3>증권 사진으로 채우기</h3>
+      <p>맨 위 <b>증권 사진으로 채우기</b>를 누르고 증권 첫 장을 찍거나 고릅니다.
+        보험사·상품명·계약번호·보험료 등을 읽어 <b>체크한 칸만</b> 채웁니다.
+        글자를 잘못 읽을 수 있으니 저장 전에 확인하세요.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/10b-contract-history.jpg" alt="계약 상태">
+      <figcaption>계약 상태와 이력</figcaption></figure>
+    <div>
+      <h3>계약 상태</h3>
+      <table>
+        <tr><td class="k">신규 · 유지 · 부활</td><td>살아 있는 계약 — 일정·알림·합계에 들어갑니다</td></tr>
+        <tr><td class="k">실효 · 해지</td><td>끝난 계약 — 기록으로만 남습니다</td></tr>
+      </table>
+      <p>계약이 끝났으면 지우지 말고 <b>상태를 해지로</b> 바꾸세요. 기록이 남습니다.
+        잘못 넣은 계약만 오른쪽 위 휴지통으로 지웁니다.</p>
+
+      <h3>만기 계약 갱신</h3>
+      <p>자동차보험처럼 해마다 다시 드는 계약은, 만기 달이 되면 계약에
+        <b>이 계약으로 갱신 등록</b> 버튼이 생깁니다. 누르면 내용이 채워진 새 계약이 열립니다.
+        옛 계약은 &lsquo;갱신됨&rsquo;으로 남고, 보험료가 두 번 잡히지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 6. 상담과 보장분석 ══════════ -->
+<section class="sec" id="sec6">
+  <div class="sec-head"><span class="sec-no">06</span><h2>상담과 보장분석</h2>
+    <span class="sub">기록하고 · 진단하고 · 보여주기</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/11-consult-form.jpg" alt="상담 등록">
+      <figcaption>상담 등록</figcaption></figure>
+    <div>
+      <h3>상담 기록</h3>
+      <p>고객 화면의 <b>상담 추가</b>를 누릅니다.</p>
+      <ul class="kv">
+        <li><b>예약</b> — 앞으로 만날 약속. 그날 일정과 알림이 생깁니다</li>
+        <li><b>완료</b> — 만나고 난 뒤의 기록</li>
+      </ul>
+      <p>적기 어려우면 <b>녹음</b> 버튼으로 음성 메모를 남기세요.</p>
+      <div class="tip">고객 화면에 <b>마지막 상담 12일 전</b>처럼 한 줄이 나옵니다.
+        90일이 넘으면 주황색으로 바뀝니다.</div>
+      <p>고객 화면 오른쪽 위 <b>⋮ &gt; 이력 타임라인</b>을 누르면 상담·계약·할 일이
+        날짜순으로 한 줄에 모입니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/11-coverage.jpg" alt="보장분석">
+      <figcaption>보장분석</figcaption></figure>
+    <div>
+      <h3>보장분석</h3>
+      <p>고객 화면 맨 위 <b>보장분석</b>을 누르세요.
+        <b>실손 · 암 · 사망 · 연금</b> 네 가지 중 무엇이 비었는지 보여 주고,
+        빈 곳마다 권유할 말을 한 줄씩 붙여 줍니다.</p>
+      <div class="warn">계약의 <b>상품 유형</b>만 보고 판단하는 간단한 분석입니다.
+        정확한 보장은 약관을 확인하세요.</div>
+
+      <h3>고객에게 보낼 리포트</h3>
+      <p>보장분석 오른쪽 위 <b>공유</b> 아이콘 → <b>이미지로 공유하기</b>를 누르면
+        카톡·문자로 보낼 수 있는 한 장짜리 그림이 만들어집니다.</p>
+
+      <h3>소개 관계</h3>
+      <p>고객 탭 맨 위 <span class="chip">소개 관계</span>를 누르면 누가 누구를 소개했는지 나옵니다.
+        고객을 등록할 때 <b>소개자</b>를 적어 두어야 보입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 7. 문자 보내기 ══════════ -->
+<section class="sec" id="sec7">
+  <div class="sec-head"><span class="sec-no">07</span><h2>문자 보내기</h2>
+    <span class="sub">한 명 · 여러 명</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/13-sms.jpg" alt="문자 보내기">
+      <figcaption>문자 작성</figcaption></figure>
+    <div>
+      <h3>한 명에게</h3>
+      <ol class="steps">
+        <li>고객 화면의 <b>문자</b>를 누릅니다. (홈·일정의 문자 버튼도 같습니다)</li>
+        <li>위에서 <b>문구</b>(생일 축하·만기 안내 등)를 고르면 내용이 채워집니다.</li>
+        <li><b>문자 앱으로 보내기</b>를 누르면 휴대폰 문자 앱이 열립니다. 거기서 <b>전송</b>을 누르세요.</li>
+      </ol>
+      <div class="warn">앱이 직접 보내지 않습니다. <b>문자 앱에서 전송</b>을 눌러야 나갑니다.</div>
+      <p>문자나 전화를 하고 돌아오면 <b>&lsquo;기록을 남길까요?&rsquo;</b>를 묻습니다.
+        남기면 상담 기록에 들어갑니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/21-bulk-sms.jpg" alt="단체 문자">
+      <figcaption>단체 문자</figcaption></figure>
+    <div>
+      <h3>여러 명에게 (단체 문자)</h3>
+      <ol class="steps">
+        <li>고객 탭 맨 위 <span class="chip">단체문자</span>를 누릅니다.</li>
+        <li>기간(이번 주 · 이번 달)과 종류(만기·납입·생일 등)를 고릅니다.</li>
+        <li>대상이 나오면 <b>문자 작성</b>을 누릅니다.</li>
+      </ol>
+      <p>수신을 거부한 고객과 전화번호가 없는 고객은 저절로 빠집니다.</p>
+
+      <h3>문구를 내 말투로</h3>
+      <p><b>설정 &gt; 문자 문구 관리</b>에서 기본 문구 여섯 개를 고칠 수 있습니다.
+        <b>기본값</b>을 누르면 원래대로 돌아갑니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 8. 일정과 알림 ══════════ -->
+<section class="sec" id="sec8">
+  <div class="sec-head"><span class="sec-no">08</span><h2>일정과 알림</h2>
+    <span class="sub">따로 적지 않아도 생깁니다</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/15-schedule.jpg" alt="일정 달력">
+      <figcaption>일정 탭</figcaption></figure>
+    <div>
+      <h3>일정은 저절로 생깁니다</h3>
+      <table>
+        <tr><th>일정</th><th>무엇을 넣으면 생기나</th></tr>
+        <tr><td class="k">만기</td><td>계약의 만기일</td></tr>
+        <tr><td class="k">납입</td><td>계약의 납입일</td></tr>
+        <tr><td class="k">생일 · 상령일</td><td>고객의 생년월일</td></tr>
+        <tr><td class="k">상담</td><td>&lsquo;예약&rsquo;으로 적은 상담</td></tr>
+        <tr><td class="k">할 일</td><td>직접 적은 할 일</td></tr>
+      </table>
+      <p>달력에서 날짜를 누르면 그날 일정이 아래에 나옵니다.
+        오른쪽 위 <span class="chip">목록으로</span>를 누르면 날짜별 목록으로 바뀝니다.</p>
+
+      <h3>할 일 적기</h3>
+      <p>일정 탭 오른쪽 아래 <span class="chip">할일</span>을 누르고 내용과 날짜를 적습니다.
+        고객을 연결해 두면 그 고객 이름과 전화가 함께 나옵니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/24-notif.jpg" alt="알림 설정">
+      <figcaption>설정 &gt; 일정 알림</figcaption></figure>
+    <div>
+      <h3>알림 켜기</h3>
+      <ol class="steps">
+        <li><b>설정 &gt; 일정 알림</b>으로 갑니다.</li>
+        <li><span class="chip">알림 켜고 예약하기</span>를 누르고 권한을 허용합니다.</li>
+        <li>알림 받을 시각(기본 오전 9시)을 정합니다.</li>
+      </ol>
+      <p>알림에 붙은 <b>문자 보내기</b>를 누르면 그 고객 문자 화면이 바로 열립니다.</p>
+      <div class="tip"><b>테스트 알림 보내기</b>를 눌러 알림이 잘 오는지 지금 확인할 수 있습니다.</div>
+      <div class="tip">한 달 넘게 앱을 열지 않으면 알림이 멈춥니다. 가끔 한 번씩 열어 주세요.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 9. 보험사별 장부 · 통계 · 위젯 ══════════ -->
+<section class="sec" id="sec9">
+  <div class="sec-head"><span class="sec-no">09</span><h2>보험사별 장부 · 통계 · 위젯</h2>
+    <span class="sub">한눈에 보기</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/30-insurer-book.jpg" alt="보험사별 장부">
+      <figcaption>보험사별 장부</figcaption></figure>
+    <div>
+      <h3>보험사별 장부</h3>
+      <p>여러 보험사 계약을 함께 다룰 때 쓰세요. <b>홈 아래쪽</b> 또는
+        <b>설정 &gt; 보험사별 장부</b>에서 엽니다.</p>
+      <ul class="dot">
+        <li>보험사마다 <b>계약 수 · 고객 수 · 월 보험료 · 이달 만기</b>가 나옵니다</li>
+        <li>초록색 <b>상담원 아이콘</b>을 누르면 그 보험사 고객센터로 바로 전화합니다</li>
+        <li>보험사를 누르면 그 회사 계약만 모아 봅니다</li>
+      </ul>
+
+      <h3>통계</h3>
+      <p><b>통계</b> 탭에서 고객 수 · 유지 계약 · 월 보험료 합계 · 이번 달 신규 계약,
+        그리고 보험사별·상품별 분포와 최근 6개월 추이를 봅니다.</p>
+      <div class="tip">월 보험료는 연납·분기납도 <b>한 달치로 나눠</b> 더한 금액입니다.
+        만기가 지난 계약과 해지·실효 계약은 빠집니다.</div>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/31-widget.jpg" alt="바탕화면 위젯">
+      <figcaption>바탕화면 위젯</figcaption></figure>
+    <div>
+      <h3>바탕화면 위젯</h3>
+      <p>앱을 열지 않아도 휴대폰 바탕화면에서 <b>오늘 챙길 고객</b>을 볼 수 있습니다.</p>
+      <ol class="steps">
+        <li><b>설정 &gt; 바탕화면 위젯 추가</b>를 누릅니다.</li>
+        <li>뜨는 창에서 <b>추가</b>를 누릅니다.</li>
+      </ol>
+      <p>창이 뜨지 않으면, 바탕화면 빈 곳을 길게 누르고 <b>위젯 → 보험노트 →
+        &lsquo;오늘 챙길 일&rsquo;</b>을 끌어다 놓으세요.</p>
+      <div class="tip">앱 잠금을 켜 두면 위젯에서 고객 이름을 가립니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 10. 자료 지키기 ══════════ -->
+<section class="sec" id="sec10">
+  <div class="sec-head"><span class="sec-no">10</span><h2>자료 지키기</h2>
+    <span class="sub">백업 · 엑셀 · 잠금</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/28-backup-password.jpg" alt="백업">
+      <figcaption>백업 비밀번호 정하기</figcaption></figure>
+    <div>
+      <h3>백업 — 가장 중요합니다</h3>
+      <ol class="steps">
+        <li><b>설정 &gt; 데이터 관리 &gt; 백업 내보내기</b>를 누릅니다.</li>
+        <li>비밀번호를 정합니다.</li>
+        <li>만들어진 파일을 <b>내 메일·클라우드·PC</b>에 보관합니다.</li>
+      </ol>
+      <p>고객·계약·상담·사진까지 모두 파일 하나에 담깁니다.</p>
+      <div class="warn"><b>비밀번호를 잊으면 복원할 수 없습니다.</b> 아무도 대신 찾아 드릴 수 없으니
+        꼭 기억해 두세요.</div>
+
+      <h3>복원 (휴대폰을 바꿀 때)</h3>
+      <p>새 휴대폰에 앱을 깔고 <b>설정 &gt; 데이터 관리 &gt; 백업 복원</b>에서 파일을 고르고 비밀번호를 넣습니다.</p>
+      <div class="warn">복원하면 지금 휴대폰의 자료가 <b>백업 내용으로 바뀝니다.</b></div>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/25-app-lock.jpg" alt="앱 잠금">
+      <figcaption>설정 &gt; 앱 잠금</figcaption></figure>
+    <div>
+      <h3>엑셀로 꺼내고 넣기</h3>
+      <p><b>설정 &gt; 데이터 관리 &gt; 엑셀</b>에서 양식 받기 · 가져오기 · 내보내기를 합니다.
+        PC에서 자료를 보거나 고칠 때 씁니다(사진은 담기지 않습니다).</p>
+
+      <h3>앱 잠금</h3>
+      <p><b>설정 &gt; 앱 잠금</b>에서 숫자 4자리 PIN을 정하면 앱을 열 때마다 잠금이 걸립니다.
+        지문·얼굴 인증도 쓸 수 있습니다.</p>
+      <div class="tip">PIN을 잊으면 잠금 화면 아래 <b>&lsquo;PIN을 잊으셨나요?&rsquo;</b>를 누르세요.
+        휴대폰 잠금(지문·패턴 등)으로 확인하면 새 PIN을 정할 수 있습니다.</div>
+
+      <h3>그 밖의 설정</h3>
+      <ul class="dot">
+        <li><b>보험사 관리</b> — 목록에 없는 보험사를 추가하거나 숨깁니다</li>
+        <li><b>테마</b> — 밝게 · 어둡게</li>
+        <li><b>업데이트 확인</b> — 새 버전이 있는지 봅니다</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 11. 자주 묻는 질문 ══════════ -->
+<section class="sec" id="sec11">
+  <div class="sec-head"><span class="sec-no">11</span><h2>자주 묻는 질문</h2>
+    <span class="sub">막힐 때 먼저 보세요</span></div>
+
+  <div class="feat wide">
+    <div>
+      <h3>고객이 수백 명인데 어떻게 넣나요?</h3>
+      <p>엑셀로 한꺼번에 넣으세요(3장). 계약 시트만 채워도 고객이 저절로 만들어집니다.</p>
+
+      <h3>알림이 오지 않아요</h3>
+      <ul class="dot">
+        <li><b>설정 &gt; 일정 알림</b>에서 알림이 켜져 있는지 보세요</li>
+        <li>계약에 <b>만기일·납입일</b>, 고객에 <b>생년월일</b>이 들어 있어야 일정이 생깁니다</li>
+        <li>휴대폰 설정에서 보험노트의 <b>배터리 최적화</b>를 &lsquo;제한 없음&rsquo;으로 바꿔 보세요</li>
+        <li><b>테스트 알림 보내기</b>로 확인해 보세요</li>
+      </ul>
+
+      <h3>고객을 지우면 어떻게 되나요?</h3>
+      <p>목록·일정·알림·통계에서 모두 빠지고, 그 고객의 첨부 사진도 지워집니다.</p>
+
+      <h3>상령일이 뭔가요?</h3>
+      <p>보험 나이가 한 살 오르는 날입니다(생일 6개월 뒤). 이 날이 지나면 보험료가 오를 수 있어
+        미리 알려 드립니다.</p>
+
+      <h3>계속 무료인가요?</h3>
+      <p><b>2026년 12월 31일까지 모든 기능이 무료</b>입니다.
+        2027년부터 <b>보장분석 · 리포트 · 단체 문자 · 통계</b>는 연 구독으로 열립니다.
+        고객·계약·일정·알림·백업·엑셀·한 명에게 보내는 문자는 계속 무료입니다.
+        설치한 날부터 1개월은 모든 기능을 쓸 수 있습니다.</p>
+
+      <h3>인터넷이 필요한가요?</h3>
+      <p>거의 필요 없습니다. 주소 검색 · 새 버전 확인 · 이용 기간 확인 때만 씁니다.
+        고객 자료는 <b>밖으로 나가지 않습니다.</b></p>
+
+      <h3>업데이트하면 자료가 지워지나요?</h3>
+      <p>아니요. 고객·계약 자료는 그대로 남습니다. 새 버전이 나오면 앱을 켤 때 알려 드립니다.</p>
+
+      <div class="warn" style="margin-top:6mm">
+        <b>꼭 기억하세요</b> — 이 앱은 서버에 자료를 두지 않습니다.
+        <b>휴대폰을 잃어버리면 되찾을 방법이 없습니다.</b>
+        한 달에 한 번은 백업해 두세요.
+      </div>
+    </div>
+  </div>
+
+  <p class="end">보험노트 v1.1.18 (26) 사용설명서 · 2026년 11월 18일 · 모든 데이터는 사용자의 기기에만 저장됩니다</p>
+
+  <div class="legal">
+    <p><b>&copy; 2026 디벨로직(Develogic). All rights reserved.</b></p>
+    <p>이 사용설명서의 <b>본문 · 편집 구성 · 화면 캡처 · 도표</b>, 그리고 보험노트 앱의
+      <b>화면 디자인 · 아이콘 · 안내 문구 · 상품 목록 데이터</b>는 대한민국 저작권법의
+      보호를 받는 저작물입니다.</p>
+    <p>저작권자의 사전 서면 동의 없이 이 저작물의 전부 또는 일부를
+      <b>복제 · 전송 · 배포 · 출판 · 번역하거나 2차적저작물로 작성</b>하는 행위를 금합니다.
+      영리 목적으로 이용하거나 이를 바탕으로 유사한 소프트웨어 · 문서를 제작하는 경우도
+      마찬가지입니다.</p>
+    <p>저작재산권을 침해한 자는 <b>저작권법 제136조</b>에 따라 <b>5년 이하의 징역 또는
+      5천만원 이하의 벌금</b>에 처해질 수 있으며, 저작권자는 이와 별도로
+      <b>침해의 정지 및 손해배상</b>을 청구할 수 있습니다.</p>
+    <p>&lsquo;보험노트&rsquo;, &lsquo;InsuMate&rsquo; 및 관련 로고는 디벨로직의 상표입니다.</p>
+    <p>이 설명서의 내용은 앱 개선에 따라 사전 통지 없이 변경될 수 있습니다.
+      문의 · 이용 허락 요청: thedeveljun@gmail.com</p>
+  </div>
+</section>
+
+</body>
+</html>
