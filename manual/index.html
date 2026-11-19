@@ -256,9 +256,70 @@ body { max-width: none; margin: 0; padding: 14px 14px 56px; }
 th, .chip { font-size: 10pt; }
 td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
 
-/* 목차 → 각 장으로 바로 이동 */
-.toc ol a { color: inherit; text-decoration: none; display: block; }
+/* ───────── 목차: 눌러서 바로 가는 카드 ─────────
+   인쇄본의 줄 목록을 화면에서는 카드로 바꾼다. 번호 동그라미 · 제목 · 설명 ·
+   오른쪽 화살표. 카드 전체가 눌린다(a::after 로 카드를 덮는다). */
+.toc { padding-bottom: 6px; }
+.toc h2 {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 0 0 4px; font-size: 19px;
+}
+.toc h2::after {
+  content: '누르면 그 장으로 바로 갑니다';
+  font-size: 12.5px; font-weight: 500; color: var(--sub);
+}
+.toc ol { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; }
+.toc > ol > li {
+  position: relative;
+  grid-template-columns: 34px 1fr 14px; align-items: center; column-gap: 12px;
+  padding: 11px 14px 11px 12px;
+  border: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(30, 36, 48, .05);
+  transition: background .15s, border-color .15s;
+}
+.toc > ol > li::before {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #EEF3FF; color: var(--brand);
+  font-size: 13px; font-weight: 800; letter-spacing: -.2px;
+}
+.toc > ol > li::after {
+  content: ''; width: 8px; height: 8px;
+  border-top: 2px solid #A9B4C8; border-right: 2px solid #A9B4C8;
+  transform: rotate(45deg); justify-self: end;
+}
+.toc > ol > li:active { background: var(--soft); border-color: #C9D6F5; }
+.toc ol a { color: inherit; text-decoration: none; display: block; min-width: 0; }
+.toc ol a::after { content: ''; position: absolute; inset: 0; border-radius: 14px; }
+.toc b { display: block; font-size: 15.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.toc span { font-size: 12.5px; margin-top: 2px; line-height: 1.4; }
+/* 마지막 '자주 묻는 질문'은 막힐 때 가는 곳이라 색을 달리해 눈에 띄게 */
+.toc > ol > li:last-child { background: #FFF8F1; border-color: #F6D9BF; }
+.toc > ol > li:last-child::before { background: #FFE8D4; color: var(--orange); }
 </style>
+<script>
+/* 앱 안 웹뷰(에셋 파일)에서는 '#sec3' 같은 쪽 안 링크를 눌러도 움직이지
+   않았다. 목차 카드를 누르면 직접 그 장으로 스크롤한다. 오래된 웹뷰에서도
+   돌게 옛 문법만 쓴다. 기록(history)에도 남겨 뒤로가기로 목차에 돌아온다. */
+document.addEventListener('click', function (ev) {
+  var a = ev.target;
+  while (a && a.tagName !== 'A') a = a.parentNode;
+  if (!a || !a.getAttribute) return;
+  var href = a.getAttribute('href');
+  if (!href || href.charAt(0) !== '#') return;
+  var el = document.querySelector(href);
+  if (!el) return;
+  ev.preventDefault();
+  try { history.pushState(null, '', href); } catch (e) {}
+  el.scrollIntoView();
+}, true);
+window.addEventListener('popstate', function () {
+  var el = location.hash ? document.querySelector(location.hash) : document.querySelector('.toc');
+  if (el) el.scrollIntoView();
+});
+</script>
 </head>
 <body>
 
@@ -269,9 +330,9 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
   <div class="rule"></div>
   <dl>
     <dt>앱 이름</dt><dd>보험노트 (InsuMate)</dd>
-    <dt>버전</dt><dd>1.1.18 (26)</dd>
+    <dt>버전</dt><dd>1.1.20 (28)</dd>
     <dt>지원 기기</dt><dd>Android 7.0 이상</dd>
-    <dt>작성일</dt><dd>2026년 11월 18일</dd>
+    <dt>작성일</dt><dd>2026년 11월 19일</dd>
   </dl>
   <div class="note">
     <b>꼭 기억하세요</b> — 고객 자료는 <b>이 휴대폰 안에만</b> 저장됩니다.
@@ -347,7 +408,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         직접 넣은 고객은 지워지지 않습니다.</p>
 
       <h3>이 설명서 다시 열기</h3>
-      <p><b>설정 맨 위 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
+      <p><b>설정 &gt; 처음 할 것 &gt; 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
         <span class="chip">사용법 자세히 보기</span>를 누르세요.
         인터넷이 없어도 열립니다.</p>
       <p>설명서 오른쪽 위 <span class="chip">보내기</span>를 누르면
@@ -398,7 +459,6 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <li>부족한 보장 — 권유할 거리</li>
       </ul>
       <div class="tip">전화 돌리기 전에 펼쳐 훑으면 무슨 말을 할지 정리됩니다.</div>
-      <p>계약이 있으면 홈 아래쪽에 <span class="chip">보험사별 장부</span> 입구가 생깁니다(9장).</p>
     </div>
   </div>
 </section>
@@ -476,15 +536,18 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <b>초성</b>도 됩니다 — <b>ㄱㄷㅇ</b>만 쳐도 강도윤이 나옵니다.</p>
 
       <h3>조건으로 거르기</h3>
-      <p>검색창 옆 <span class="chip">조건</span>을 누르면 이런 조건으로 거를 수 있습니다.</p>
+      <p>자주 쓰는 것은 목록 위 칩을 바로 누릅니다:
+        <b>이번 주</b> <span class="chip">생일</span>, <b>이번 달</b>
+        <span class="chip">생일</span> <span class="chip">상령일</span>
+        <span class="chip">만기</span> <span class="chip">납입</span>.</p>
+      <p>그 밖의 조건은 검색창 옆 <span class="chip">조건</span>을 누릅니다.</p>
       <ul class="dot">
-        <li>중요고객(별표) · 이번 달 생일 · 만기(이번 달~1년 이내)</li>
-        <li>성별 · 연령대 · 상품 유형 · 보험사</li>
-        <li>영업 단계 · 문자 수신동의</li>
+        <li>먼저 보이는 것 — 생일 · 만기(이번 달~1년 이내) · 납입 · 중요고객(별표)</li>
+        <li><b>조건 더 보기</b>를 누르면 — 영업 단계 · 문자 수신동의 · 성별 · 연령대 · 상품 유형 · 보험사</li>
       </ul>
       <p>거른 뒤 목록 위 <b>이 N명에게 문자</b>로 그 사람들에게 문자를 보낼 수 있습니다.</p>
-      <div class="tip">맨 위 <span class="chip">가족 묶기</span>는 목록을 가족끼리 모아 보여 주는
-        보기 버튼입니다. 가족을 연결하는 곳은 고객 화면입니다.</div>
+      <div class="tip">오른쪽 위 <b>⋮</b>를 누르면 <b>가족 묶기</b>(목록을 가족끼리 모아 보기)와
+        <b>소개 관계</b>가 있습니다. 가족을 연결하는 곳은 고객 화면입니다.</div>
     </div>
   </div>
 
@@ -499,10 +562,14 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <li><b>문자</b> — 이 고객에게 문자를 보냅니다(7장)</li>
         <li><b>수정</b> — 고객 정보를 고칩니다</li>
         <li><b>전화번호</b> — 누르면 바로 전화가 걸립니다</li>
+        <li><b>길찾기</b> — 주소 밑 버튼. 카카오맵·네이버지도·T맵으로 바로 길을 찾습니다</li>
         <li><b>별</b> — 누르면 중요고객이 됩니다</li>
       </ul>
       <p>아래로 내리면 <b>가족 · 계약 · 상담 · 서류</b>가 차례로 나옵니다.
         오른쪽 아래 <span class="chip">계약 추가</span>로 계약을 넣습니다.</p>
+      <div class="tip">유지 중인 계약마다 <span class="chip">고객센터</span>와
+        <span class="chip">청구 서류</span> 버튼이 있습니다. 고객이 보험금 청구를 물어 오면
+        그 자리에서 보험사에 전화하거나, 필요한 서류 목록을 그 고객에게 바로 문자로 보냅니다.</div>
 
       <h3>영업 단계 · 문자 수신동의</h3>
       <p>이름 아래 작은 표시를 누르면 바로 바꿀 수 있습니다.</p>
@@ -612,7 +679,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         카톡·문자로 보낼 수 있는 한 장짜리 그림이 만들어집니다.</p>
 
       <h3>소개 관계</h3>
-      <p>고객 탭 맨 위 <span class="chip">소개 관계</span>를 누르면 누가 누구를 소개했는지 나옵니다.
+      <p>고객 탭 오른쪽 위 <b>⋮ &gt; 소개 관계</b>를 누르면 누가 누구를 소개했는지 나옵니다.
         고객을 등록할 때 <b>소개자</b>를 적어 두어야 보입니다.</p>
     </div>
   </div>
@@ -634,10 +701,11 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <li><b>문자 앱으로 보내기</b>를 누르면 휴대폰 문자 앱이 열립니다. 거기서 <b>전송</b>을 누르세요.</li>
       </ol>
       <div class="warn">앱이 직접 보내지 않습니다. <b>문자 앱에서 전송</b>을 눌러야 나갑니다.</div>
-      <p>문자 화면 아래 <b>카톡으로 보내기</b>를 누르면 같은 내용을 카카오톡으로 보낼 수 있습니다.</p>
+      <p>한 분께 보낼 때는 문자 화면 아래 <b>카톡으로 보내기</b>로 같은 내용을 카카오톡으로도 보낼 수 있습니다.</p>
       <p>문자·카톡을 보내고 돌아오면 <b>&lsquo;기록을 남길까요?&rsquo;</b>를 묻습니다.
         전화를 끊고 돌아오면 <b>&lsquo;통화하셨나요?&rsquo;</b> 창이 떠서 통화 메모와
-        다음 연락 날짜를 바로 적을 수 있습니다. 남기면 상담 기록에 들어갑니다.</p>
+        다음 연락 날짜를 바로 적을 수 있습니다. 남기면 상담 기록에 들어갑니다.
+        이 창이 필요 없으면 <b>설정 &gt; 더 편하게 &gt; 통화 후 메모 창 띄우기</b>를 끄세요.</p>
     </div>
   </div>
 
@@ -647,9 +715,10 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
     <div>
       <h3>여러 명에게</h3>
       <ol class="steps">
-        <li>고객 탭 위의 <span class="chip">이번 주 생일</span> <span class="chip">이번 달 생일</span>
-          <span class="chip">이번 달 만기</span> <span class="chip">이번 달 납입</span> 중 하나를 누릅니다.</li>
-        <li>명단이 걸러지면 <b>이 N명에게 문자</b>를 누릅니다. 맞는 문구(생일 축하·만기 안내·납입 안내)가 채워져 열립니다.</li>
+        <li>고객 탭 위 <b>이번 주</b> <span class="chip">생일</span>, 또는 <b>이번 달</b>
+          <span class="chip">생일</span> <span class="chip">상령일</span> <span class="chip">만기</span>
+          <span class="chip">납입</span> 중 하나를 누릅니다.</li>
+        <li>명단이 걸러지면 <b>이 N명에게 문자</b>를 누릅니다. 맞는 문구(생일 축하·상령일 안내·만기 안내·납입 안내)가 채워져 열립니다. 상령일은 오늘부터 이달 말까지 남은 분만 나옵니다.</li>
         <li><b>문자 앱으로 보내기</b>를 누르고 문자 앱에서 <b>전송</b>을 누르세요.</li>
       </ol>
       <p>다른 조건(영업 단계·보험사·연령대 등)은 <span class="chip">조건</span> &gt; <b>조건 더 보기</b>에서 고릅니다.</p>
@@ -719,13 +788,15 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
       <figcaption>보험사별 장부</figcaption></figure>
     <div>
       <h3>보험사별 장부</h3>
-      <p>여러 보험사 계약을 함께 다룰 때 쓰세요. <b>홈 아래쪽</b> 또는
+      <p>여러 보험사 계약을 함께 다룰 때 쓰세요. <b>통계 탭 맨 위</b> 또는
         <b>설정 &gt; 보험사별 장부</b>에서 엽니다.</p>
       <ul class="dot">
-        <li>보험사마다 <b>계약 수 · 고객 수 · 월 보험료 · 이달 만기</b>가 나옵니다</li>
+        <li>보험사마다 <b>월 보험료 · 계약 수 · 고객 수</b>가 나옵니다(예: 월 300,000원 · 1건 · 1명)</li>
         <li>초록색 <b>상담원 아이콘</b>을 누르면 그 보험사 고객센터로 바로 전화합니다</li>
         <li>보험사를 누르면 그 회사 계약만 모아 봅니다</li>
       </ul>
+      <div class="tip">고객이 청구 문의를 하면 <b>고객 화면의 계약 카드</b>에서 바로
+        <b>고객센터 전화</b>와 <b>보험금 청구 서류 안내</b>를 쓸 수 있습니다.</div>
 
       <h3>통계</h3>
       <p><b>통계</b> 탭에서 고객 수 · 유지 계약 · 월 보험료 합계 · 이번 달 신규 계약,
@@ -848,7 +919,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
     </div>
   </div>
 
-  <p class="end">보험노트 v1.1.18 (26) 사용설명서 · 2026년 11월 18일 · 모든 데이터는 사용자의 기기에만 저장됩니다</p>
+  <p class="end">보험노트 v1.1.20 (28) 사용설명서 · 2026년 11월 19일 · 모든 데이터는 사용자의 기기에만 저장됩니다</p>
 
   <div class="legal">
     <p><b>&copy; 2026 디벨로직(Develogic). All rights reserved.</b></p>
