@@ -286,7 +286,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
 <h2>목차</h2>
 <ol>
 <li><a href="#sec1"><div><b>처음 시작하기</b><span>화면 구성 · 내 이름 넣기 · 시작하기 안내</span></div></a></li>
-<li><a href="#sec2"><div><b>홈</b><span>오늘 할 일 · 오늘 브리핑</span></div></a></li>
+<li><a href="#sec2"><div><b>홈</b><span>오늘 할 일 · 고객 펼쳐 보기</span></div></a></li>
 <li><a href="#sec3"><div><b>고객 등록</b><span>한 명씩 · 명함·문자로 · 엑셀로 한꺼번에</span></div></a></li>
 <li><a href="#sec4"><div><b>고객 찾기와 고객 화면</b><span>검색 · 조건 검색 · 가족 · 서류</span></div></a></li>
 <li><a href="#sec5"><div><b>계약</b><span>계약 등록 · 증권 사진 · 갱신</span></div></a></li>
@@ -347,7 +347,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         직접 넣은 고객은 지워지지 않습니다.</p>
 
       <h3>이 설명서 다시 열기</h3>
-      <p><b>설정 &gt; 도움말 &gt; 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
+      <p><b>설정 맨 위 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
         <span class="chip">사용법 자세히 보기</span>를 누르세요.
         인터넷이 없어도 열립니다.</p>
       <p>설명서 오른쪽 위 <span class="chip">보내기</span>를 누르면
@@ -387,18 +387,17 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
   </div>
 
   <div class="feat">
-    <figure class="shot"><img src="shots/02-briefing.jpg" alt="오늘 브리핑">
-      <figcaption>오늘 브리핑</figcaption></figure>
+    <figure class="shot"><img src="shots/02-home-expand.jpg" alt="오늘 할 일 펼쳐 보기">
+      <figcaption>오늘 할 일 · 고객 펼쳐 보기</figcaption></figure>
     <div>
-      <h3>오늘 브리핑</h3>
-      <p>홈 오른쪽 위 <span class="chip">브리핑</span>을 누르세요.
-        오늘 연락할 고객을 <b>한 사람당 카드 한 장</b>으로 정리해 줍니다.</p>
+      <h3>전화 걸기 전에 한 번 펼쳐 보기</h3>
+      <p>&lsquo;오늘 할 일&rsquo; 줄 오른쪽 <b>&or;</b>를 누르면 그 자리에서 고객 요약이 펼쳐집니다.</p>
       <ul class="dot">
-        <li>왜 연락하는지 (납입·만기·생일·상담)</li>
-        <li>지금 내는 보험료와 마지막 상담 내용</li>
+        <li>유지 중인 계약과 월 보험료</li>
+        <li>마지막 상담 내용</li>
         <li>부족한 보장 — 권유할 거리</li>
       </ul>
-      <div class="tip">전화 돌리기 전에 이 화면만 훑으면 무슨 말을 할지 정리됩니다.</div>
+      <div class="tip">전화 돌리기 전에 펼쳐 훑으면 무슨 말을 할지 정리됩니다.</div>
       <p>계약이 있으면 홈 아래쪽에 <span class="chip">보험사별 장부</span> 입구가 생깁니다(9장).</p>
     </div>
   </div>
@@ -450,7 +449,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
     <div>
       <h3>쓰던 명단을 엑셀로 한꺼번에</h3>
       <p>고객이 많으면 한 명씩 치지 마세요. 홈 &lsquo;고객 등록하기&rsquo;의
-        <b>쓰던 고객 명단이 있어요 (엑셀)</b>, 또는 <b>설정 &gt; 데이터 관리 &gt;
+        <b>쓰던 고객 명단이 있어요 (엑셀)</b>, 또는 <b>설정 &gt; 백업 · 복원 · 엑셀 &gt;
         기존 고객 자료 반영하기</b>를 누르면 순서 안내가 나옵니다.</p>
       <ol class="steps">
         <li><span class="chip">양식 받기</span>로 빈 엑셀 양식을 받아 PC로 보냅니다.</li>
@@ -510,7 +509,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
       <ul class="dot">
         <li><b>영업 단계</b> — 가망 · 상담중 · 청약중 · 계약 · 보류.
           가망·상담중·청약중인 고객에게 계약을 넣으면 저절로 &lsquo;계약&rsquo;이 됩니다</li>
-        <li><b>수신동의</b> — 거부한 고객은 단체 문자에서 빠집니다</li>
+        <li><b>수신동의</b> — 거부한 고객은 여러 명에게 보내는 문자에서 빠집니다</li>
       </ul>
 
       <h3>가족 연결</h3>
@@ -635,26 +634,30 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <li><b>문자 앱으로 보내기</b>를 누르면 휴대폰 문자 앱이 열립니다. 거기서 <b>전송</b>을 누르세요.</li>
       </ol>
       <div class="warn">앱이 직접 보내지 않습니다. <b>문자 앱에서 전송</b>을 눌러야 나갑니다.</div>
-      <p>문자나 전화를 하고 돌아오면 <b>&lsquo;기록을 남길까요?&rsquo;</b>를 묻습니다.
-        남기면 상담 기록에 들어갑니다.</p>
+      <p>문자 화면 아래 <b>카톡으로 보내기</b>를 누르면 같은 내용을 카카오톡으로 보낼 수 있습니다.</p>
+      <p>문자·카톡을 보내고 돌아오면 <b>&lsquo;기록을 남길까요?&rsquo;</b>를 묻습니다.
+        전화를 끊고 돌아오면 <b>&lsquo;통화하셨나요?&rsquo;</b> 창이 떠서 통화 메모와
+        다음 연락 날짜를 바로 적을 수 있습니다. 남기면 상담 기록에 들어갑니다.</p>
     </div>
   </div>
 
   <div class="feat">
-    <figure class="shot"><img src="shots/21-bulk-sms.jpg" alt="단체 문자">
-      <figcaption>단체 문자</figcaption></figure>
+    <figure class="shot"><img src="shots/21-quick-sms.jpg" alt="여러 명에게 문자">
+      <figcaption>고객 탭 · 이번 달 생일</figcaption></figure>
     <div>
-      <h3>여러 명에게 (단체 문자)</h3>
+      <h3>여러 명에게</h3>
       <ol class="steps">
-        <li>고객 탭 맨 위 <span class="chip">단체문자</span>를 누릅니다.</li>
-        <li>기간(이번 주 · 이번 달)과 유형(만기·납입·생일·상령일·상담)을 고릅니다.</li>
-        <li>대상이 나오면 <b>문자 작성</b>을 누릅니다.</li>
+        <li>고객 탭 위의 <span class="chip">이번 주 생일</span> <span class="chip">이번 달 생일</span>
+          <span class="chip">이번 달 만기</span> <span class="chip">이번 달 납입</span> 중 하나를 누릅니다.</li>
+        <li>명단이 걸러지면 <b>이 N명에게 문자</b>를 누릅니다. 맞는 문구(생일 축하·만기 안내·납입 안내)가 채워져 열립니다.</li>
+        <li><b>문자 앱으로 보내기</b>를 누르고 문자 앱에서 <b>전송</b>을 누르세요.</li>
       </ol>
+      <p>다른 조건(영업 단계·보험사·연령대 등)은 <span class="chip">조건</span> &gt; <b>조건 더 보기</b>에서 고릅니다.</p>
       <p>전화번호가 없는 고객과 수신거부 고객은 빠집니다. 만기·납입 안내처럼 계약에 따른
         안내라면 문자 화면에서 수신거부 고객도 넣을 수 있습니다(광고성 문자는 안 됩니다).</p>
 
       <h3>문구를 내 말투로</h3>
-      <p><b>설정 &gt; 문자 문구 관리</b>에서 기본 문구 여섯 개를 고칠 수 있습니다.
+      <p><b>설정 &gt; 문자 문구 관리</b>에서 기본 문구 여덟 개를 고칠 수 있습니다.
         <b>기본값</b>을 누르면 원래대로 돌아갑니다.</p>
     </div>
   </div>
@@ -677,8 +680,9 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         <tr><td class="k">생일 · 상령일</td><td>고객의 생년월일</td></tr>
         <tr><td class="k">상담</td><td>&lsquo;예약&rsquo;으로 적은 상담, 적어 둔 다음 상담일</td></tr>
         <tr><td class="k">할 일</td><td>직접 적은 할 일</td></tr>
+        <tr><td class="k">보장 시작</td><td>암·건강보험의 가입일 (90일·1년 뒤 면책·감액이 끝나는 날)</td></tr>
       </table>
-      <p>달력에서 날짜를 누르면 그날 일정이 아래에 나옵니다.
+      <p>오늘 일정은 달력 <b>위</b>에 먼저 나옵니다. 달력에서 다른 날짜를 누르면 그날 일정이 아래에 나옵니다.
         오른쪽 위 <span class="chip">목록으로</span>를 누르면 날짜별 목록으로 바뀝니다.</p>
 
       <h3>할 일 적기</h3>
@@ -759,7 +763,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
     <div>
       <h3>백업 — 가장 중요합니다</h3>
       <ol class="steps">
-        <li><b>설정 &gt; 데이터 관리 &gt; 백업 내보내기</b>를 누릅니다.</li>
+        <li><b>설정 &gt; 백업 · 복원 · 엑셀 &gt; 백업 내보내기</b>를 누릅니다.</li>
         <li>비밀번호를 정합니다. <b>힌트</b>를 적어 두면 복원할 때 보여 줍니다.</li>
         <li>만들어진 파일을 <b>내 메일·클라우드·PC</b>에 보관합니다.</li>
       </ol>
@@ -768,7 +772,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
         꼭 기억해 두세요.</div>
 
       <h3>복원 (휴대폰을 바꿀 때)</h3>
-      <p>새 휴대폰에 앱을 깔고 <b>설정 &gt; 데이터 관리 &gt; 백업 복원</b>에서 파일을 고르고 비밀번호를 넣습니다.</p>
+      <p>새 휴대폰에 앱을 깔고 <b>설정 &gt; 백업 · 복원 · 엑셀 &gt; 백업 복원</b>에서 파일을 고르고 비밀번호를 넣습니다.</p>
       <div class="warn">복원하면 지금 휴대폰의 자료가 <b>백업 내용으로 바뀝니다.</b></div>
     </div>
   </div>
@@ -778,7 +782,7 @@ td.k { white-space: normal; }   /* 안 접히면 표가 옆으로 넘친다 */
       <figcaption>설정 &gt; 앱 잠금</figcaption></figure>
     <div>
       <h3>엑셀로 꺼내고 넣기</h3>
-      <p><b>설정 &gt; 데이터 관리</b>의 <b>엑셀 양식 다운받기 · 엑셀 가져오기 · 엑셀 내보내기</b>를 씁니다.
+      <p><b>설정 &gt; 백업 · 복원 · 엑셀</b>의 <b>엑셀 양식 다운받기 · 엑셀 가져오기 · 엑셀 내보내기</b>를 씁니다.
         PC에서 자료를 보거나 고칠 때 씁니다(사진은 담기지 않습니다).</p>
 
       <h3>앱 잠금</h3>
