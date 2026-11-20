@@ -330,9 +330,9 @@ window.addEventListener('popstate', function () {
   <div class="rule"></div>
   <dl>
     <dt>앱 이름</dt><dd>보험노트 (InsuMate)</dd>
-    <dt>버전</dt><dd>1.1.20 (28)</dd>
+    <dt>버전</dt><dd>1.1.21 (29)</dd>
     <dt>지원 기기</dt><dd>Android 7.0 이상</dd>
-    <dt>작성일</dt><dd>2026년 11월 19일</dd>
+    <dt>작성일</dt><dd>2026년 11월 20일</dd>
   </dl>
   <div class="note">
     <b>꼭 기억하세요</b> — 고객 자료는 <b>이 휴대폰 안에만</b> 저장됩니다.
@@ -346,10 +346,10 @@ window.addEventListener('popstate', function () {
 <section class="toc">
 <h2>목차</h2>
 <ol>
-<li><a href="#sec1"><div><b>처음 시작하기</b><span>화면 구성 · 내 이름 넣기 · 시작하기 안내</span></div></a></li>
-<li><a href="#sec2"><div><b>홈</b><span>오늘 할 일 · 고객 펼쳐 보기</span></div></a></li>
+<li><a href="#sec1"><div><b>처음 시작하기</b><span>처음이시면 여기부터 · 내 이름 넣기</span></div></a></li>
+<li><a href="#sec2"><div><b>홈</b><span>바로가기 · 오늘 할 일 · 고객 펼쳐 보기</span></div></a></li>
 <li><a href="#sec3"><div><b>고객 등록</b><span>한 명씩 · 명함·문자로 · 엑셀로 한꺼번에</span></div></a></li>
-<li><a href="#sec4"><div><b>고객 찾기와 고객 화면</b><span>검색 · 조건 검색 · 가족 · 서류</span></div></a></li>
+<li><a href="#sec4"><div><b>고객 찾기와 고객 화면</b><span>검색 · 조건 검색 · 가족 · 서류 · 보험금 청구</span></div></a></li>
 <li><a href="#sec5"><div><b>계약</b><span>계약 등록 · 증권 사진 · 갱신</span></div></a></li>
 <li><a href="#sec6"><div><b>상담과 보장분석</b><span>상담 기록 · 보장분석 · 소개 관계</span></div></a></li>
 <li><a href="#sec7"><div><b>문자 보내기</b><span>한 명 · 여러 명 · 문구 고치기</span></div></a></li>
@@ -369,15 +369,16 @@ window.addEventListener('popstate', function () {
     <figure class="shot"><img src="shots/01-home.jpg" alt="홈 화면">
       <figcaption>앱을 처음 켜면 나오는 홈</figcaption></figure>
     <div>
-      <h3>홈의 &lsquo;시작하기&rsquo;를 따라 하세요</h3>
-      <p>처음 켜면 홈 맨 위에 <span class="chip">시작하기</span>가 뜹니다.
-        세 줄을 위에서부터 누르기만 하면 됩니다.</p>
+      <h3>홈의 &lsquo;처음이시면 여기부터&rsquo;를 따라 하세요</h3>
+      <p>처음 켜면 홈 맨 위에 <span class="chip">처음이시면 여기부터</span> 안내가 뜹니다.
+        지금 할 차례인 줄이 크게 보이니, 파란 <b>지금 하기</b> 버튼만 누르면 됩니다.</p>
       <ol class="steps">
         <li><b>고객 등록하기</b> — 고객을 넣습니다(3장)</li>
         <li><b>계약 넣어보기</b> — 고객의 계약을 넣습니다(5장)</li>
         <li><b>할 일 잡아보기</b> — 전화·방문할 일을 적습니다(8장)</li>
       </ol>
-      <p>끝낸 줄에는 초록 체크가 붙고, 셋 다 끝나면 안내가 사라집니다.</p>
+      <p>끝낸 줄에는 초록 체크와 <b>완료</b>가 붙고, 막대에 몇 개 했는지 나옵니다.
+        셋 다 끝나면 안내가 사라집니다.</p>
 
       <h3>아래 탭 다섯 개</h3>
       <ul class="kv">
@@ -408,7 +409,7 @@ window.addEventListener('popstate', function () {
         직접 넣은 고객은 지워지지 않습니다.</p>
 
       <h3>이 설명서 다시 열기</h3>
-      <p><b>설정 &gt; 처음 할 것 &gt; 사용법</b>, 또는 홈 &lsquo;시작하기&rsquo; 맨 아래
+      <p><b>설정 &gt; 처음 할 것 &gt; 사용법</b>, 또는 홈 &lsquo;처음이시면 여기부터&rsquo; 맨 아래
         <span class="chip">사용법 자세히 보기</span>를 누르세요.
         인터넷이 없어도 열립니다.</p>
       <p>설명서 오른쪽 위 <span class="chip">보내기</span>를 누르면
@@ -422,6 +423,22 @@ window.addEventListener('popstate', function () {
 <section class="sec" id="sec2">
   <div class="sec-head"><span class="sec-no">02</span><h2>홈</h2>
     <span class="sub">하루를 여는 화면</span></div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/01c-home-shortcuts.jpg" alt="홈 바로가기">
+      <figcaption>홈 바로가기 네 칸</figcaption></figure>
+    <div>
+      <h3>바로가기 네 칸</h3>
+      <p>자주 여는 기능을 홈에서 한 번에 엽니다.</p>
+      <ul class="kv">
+        <li><b>고객 등록</b> — 명함·문자로 고객을 넣습니다(3장)</li>
+        <li><b>보험사 장부</b> — 보험사별 계약을 한눈에 봅니다(9장)</li>
+        <li><b>보장분석</b> — 고객을 고르면 빠진 보장을 바로 봅니다(6장)</li>
+        <li><b>청구 진행</b> — 보험금 청구를 접수부터 지급까지 챙깁니다(4장)</li>
+      </ul>
+      <div class="tip">아직 끝나지 않은 청구가 있으면 <b>청구 진행</b> 옆에 숫자가 뜹니다.</div>
+    </div>
+  </div>
 
   <div class="feat">
     <figure class="shot"><img src="shots/01b-home-week.jpg" alt="오늘 할 일">
@@ -470,10 +487,10 @@ window.addEventListener('popstate', function () {
 
   <div class="feat">
     <figure class="shot"><img src="shots/32-add-client-choice.jpg" alt="고객 등록 방법 고르기">
-      <figcaption>홈 &gt; 시작하기 &gt; 고객 등록하기</figcaption></figure>
+      <figcaption>홈 &gt; 처음이시면 여기부터 &gt; 고객 등록하기</figcaption></figure>
     <div>
       <h3>방법 고르기</h3>
-      <p>홈 &lsquo;시작하기&rsquo;의 <b>고객 등록하기</b>를 누르면 방법을 고르는 창이 뜹니다.</p>
+      <p>홈 &lsquo;처음이시면 여기부터&rsquo;의 <b>지금 하기</b>, 또는 바로가기 <b>고객 등록</b>을 누르면 방법을 고르는 창이 뜹니다.</p>
       <ul class="kv">
         <li><b>한 명씩 직접 등록할게요</b> — 이름·전화번호만 넣으면 됩니다</li>
         <li><b>명함 사진으로 등록</b> — 명함을 찍으면 이름·전화·회사를 읽어 채웁니다</li>
@@ -586,6 +603,40 @@ window.addEventListener('popstate', function () {
       <h3>서류 넣기</h3>
       <p><b>첨부</b>를 누르고 신분증·청약서·증권 사진을 찍거나 고릅니다.
         사진은 앱 안에 따로 보관됩니다.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/33-claims.jpg" alt="보험금 청구 진행">
+      <figcaption>홈 &gt; 청구 진행</figcaption></figure>
+    <div>
+      <h3>보험금 청구 진행 기록</h3>
+      <p>고객의 보험금 청구를 도와드렸다면 기록해 두세요.
+        <b>서류 준비 → 접수 → 심사 중 → 지급·부지급</b>까지 어디쯤인지 챙길 수 있습니다.</p>
+      <ul class="dot">
+        <li>고객 화면의 <b>보험금 청구</b> 줄 오른쪽 <span class="chip">+ 청구 기록</span>으로 넣습니다</li>
+        <li>계약 카드의 <span class="chip">청구 서류</span>로 서류 안내 문자를 보내고 나면
+          &lsquo;청구 진행 기록&rsquo;을 남길지 물어봅니다. <b>기록하기</b>를 누르면 보험사·종류가 채워져 열립니다</li>
+        <li>모든 고객의 청구는 홈 바로가기 <b>청구 진행</b>에서 <b>진행 중 · 끝난 청구</b>로 나눠 봅니다</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="feat">
+    <figure class="shot"><img src="shots/34-claim-form.jpg" alt="청구 기록">
+      <figcaption>청구 기록 고치기</figcaption></figure>
+    <div>
+      <h3>단계 바꾸기 · 받은 보험금 적기</h3>
+      <p>목록에서 청구를 누르면 고칠 수 있습니다.</p>
+      <ul class="kv">
+        <li><b>진행 단계</b> — 누르기만 하면 바뀝니다</li>
+        <li><b>보험사 · 보험금 종류</b> — 실손 통원·입원, 진단비, 수술비 등</li>
+        <li><b>날짜</b> — 접수일과 결과 받은 날</li>
+        <li><b>받은 보험금</b> — 지급되면 금액을 적어 둡니다</li>
+        <li><b>메모</b> — 보낸 서류, 보험사 담당자 등</li>
+      </ul>
+      <div class="tip">지급·부지급으로 바꾸면 끝난 청구가 되어 홈 숫자에서 빠집니다.
+        잘못 넣은 기록은 오른쪽 위 휴지통으로 지웁니다.</div>
     </div>
   </div>
 </section>
@@ -919,7 +970,7 @@ window.addEventListener('popstate', function () {
     </div>
   </div>
 
-  <p class="end">보험노트 v1.1.20 (28) 사용설명서 · 2026년 11월 19일 · 모든 데이터는 사용자의 기기에만 저장됩니다</p>
+  <p class="end">보험노트 v1.1.21 (29) 사용설명서 · 2026년 11월 20일 · 모든 데이터는 사용자의 기기에만 저장됩니다</p>
 
   <div class="legal">
     <p><b>&copy; 2026 디벨로직(Develogic). All rights reserved.</b></p>
